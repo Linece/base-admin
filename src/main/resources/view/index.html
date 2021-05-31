@@ -59,6 +59,7 @@
         </div>
 
         <!-- 内容主体区域 -->
+
         <div class="layui-body" style="overflow-y: hidden;">
             <!--   动态选项卡   -->
             <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
@@ -67,6 +68,7 @@
                     <li class="layui-this" lay-id="11">首页</li>
                 </ul>
                 <!-- 内容 -->
+                <!---->
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
                         <div id="indexTabContent"  class="layui-row layui-col-space15 tab-content-div" style="padding: 20px;background-color: #F2F2F2;overflow: auto;">
@@ -75,20 +77,11 @@
                                     <div class="layui-card-header">欢迎使用</div>
                                     <div class="layui-card-body">
                                         欢迎你，<span th:text="${loginUser.userName}"></span>
-                                        <br/>
-                                        <br/>
-                                        <p>Base Admin是一套简单通用的后台管理系统，主要功能有：权限管理、菜单管理、用户管理，系统设置、实时日志，实时监控，API加密，以及登录用户修改密码、配置个性菜单等</p>
-                                        <br/>
-                                        <br/>
-                                        <p>作者：huanzi-qch</p>
-                                        <p>博客：https://www.cnblogs.com/huanzi-qch</p>
-                                        <p>github：https://github.com/huanzi-qch</p>
-                                        <p>gitee：https://gitee.com/huanzi-qch</p>
-                                        <p>QQ交流群：1015379123</p>
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="layui-col-md6">
+                            <!--<div class="layui-col-md6">
                                 <div class="layui-card">
                                     <div class="layui-card-header">系统公告</div>
                                     <div class="layui-card-body">
@@ -98,33 +91,22 @@
                             </div>
                             <div class="layui-col-md6">
                                 <div class="layui-card">
-                                    <div class="layui-card-header">AD广告位（长期招租，如有需要请私信）</div>
+                                    &lt;!&ndash;<div class="layui-card-header">AD广告位（长期招租，如有需要请私信）</div>
                                     <div class="layui-card-body">
-                                        <a target="_blank" href="https://s.click.taobao.com/zb70Vtu">阿里云服务器（ECS）等，高性能服务器，就选阿里云</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/q9rZYtu">虚机+服务器，独享虚机服务 1c1g 3M带宽</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/2khzUtu">云服务器，企业级云服务器特惠5折</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/vLrzUtu">全民云计算，1核1G仅需293元/年</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/8PG0Vtu">云服务器，低至323元/年</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/L110Vtu">云服务器，十倍性能提升,最佳性价比</a><br/>
-                                    </div>
+                                    </div>&ndash;&gt;
                                 </div>
                             </div>
                             <div class="layui-col-md12">
                                 <div class="layui-card">
-                                    <div class="layui-card-header">AD广告位（长期招租，如有需要请私信）</div>
+                                    &lt;!&ndash;<div class="layui-card-header">AD广告位（长期招租，如有需要请私信）</div>
                                     <div class="layui-card-body">
-                                        <a target="_blank" href="https://s.click.taobao.com/zb70Vtu">阿里云服务器（ECS）等，高性能服务器，就选阿里云</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/q9rZYtu">虚机+服务器，独享虚机服务 1c1g 3M带宽</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/2khzUtu">云服务器，企业级云服务器特惠5折</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/vLrzUtu">全民云计算，1核1G仅需293元/年</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/8PG0Vtu">云服务器，低至323元/年</a><br/>
-                                        <a target="_blank" href="https://s.click.taobao.com/L110Vtu">云服务器，十倍性能提升,最佳性价比</a><br/>
-                                    </div>
+                                    </div>&ndash;&gt;
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -132,6 +114,7 @@
         <div class="layui-footer" th:utext="${sys.sysBottomText}">
             © XXX系统
         </div>
+
     </div>
     <script th:inline="javascript">
         //获取后端RSA公钥并存到sessionStorage
@@ -148,7 +131,7 @@
             let element = layui.element;
 
             //首页内容高度
-            $("#indexTabContent").css("height",($(".layui-body")[0].offsetHeight - 94) + "px");
+                        $("#indexTabContent").css("height",($(".layui-body")[0].offsetHeight - 94) + "px");
 
             /**
              * 菜单点击事件

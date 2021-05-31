@@ -32,6 +32,7 @@ public class CommonController<V, E, T> {
     @Decrypt
     @Encrypt
     public Result<PageInfo<V>> page(V entityVo) {
+
         return commonService.page(entityVo);
     }
 

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 引入公用部分 -->
+    <script th:replace="common/head::static"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+        <legend>题目描述</legend>
+    </fieldset>
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block" style="margin-left: 40px">
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+        <legend>答案</legend>
+    </fieldset>
+    <table class="layui-table" id="table" lay-filter="table">
+        <thead>
+        <tr>
+            <td style="width:50px">序列</td>
+            <td>答案内容</td>
+            <td style="width:90px">操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input type="text"  class="layui-input" name="answerIndex"></td>
+            <td><input type="text"  class="layui-input" name="answerContent"></td>
+            <td>
+                <a class="layui-btn layui-btn-xs add">添加</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs del">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="layui-form-item" style="text-align: center;margin-top: 50px">
+        <div class="layui-input-block" style="margin-left: 40px">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    //因为动态添加的元素class属性是无效的，所以不能用$('.add').click(function(){});
+    $('body').on('click', '.add', function() {
+        //你要添加的html
+        var html = '<tr>'+
+            '<td><input type="text"class="layui-input" name="answerIndex"></td>'+
+            '<td><input type="text"class="layui-input" name="answerContent"></td>'+
+            '<td>'+
+            '<a class="layui-btn layui-btn-xs add">添加</a>'+
+            '<a class="layui-btn layui-btn-danger layui-btn-xs del">删除</a>'+
+            '</td>'+
+            '</tr>';
+        //添加到表格最后
+        $(html).appendTo($('#table tbody:last'));
+        form.render();
+    });
+    $('body').on('click', '.del', function() {
+        if ($('#table tbody tr').length === 1) {
+            layer.msg('只有一条不允许删除。', {
+                time : 2000
+            });
+        } else {
+            //删除当前按钮所在的tr
+            $(this).closest('tr').remove();
+        }
+    });
+</script>
+</body>
+</html>
