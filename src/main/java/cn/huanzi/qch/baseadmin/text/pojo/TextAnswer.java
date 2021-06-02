@@ -14,11 +14,15 @@ import java.util.Date;
 public class TextAnswer implements Serializable {
 
 	@Id
-	private Integer id;
+	private String id;
 
-	private Integer textTitleId;
+	private String textTitleId;
 
-	private boolean sure;
+	private String answerIndex;
+
+	private String answerContent;
+
+	private String sure;
 
 	private Date createTime;
 
@@ -27,4 +31,5 @@ public class TextAnswer implements Serializable {
 	private String createBy;
 
 	private String updateBy;
+
 }

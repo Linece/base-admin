@@ -9,11 +9,15 @@ import java.util.Date;
 @Data
 public class TextAnswerVo extends PageCondition implements Serializable {
 
-	 private Integer id;
+	 private String id;
 
-	private Integer textTitleId;
+	private String textTitleId;
 
-	private boolean sure;
+	private String answerIndex;
+
+	private String answerContent;
+
+	private String sure;
 
 	private Date createTime;
 

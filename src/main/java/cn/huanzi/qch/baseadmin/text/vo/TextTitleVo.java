@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class TextTitleVo extends PageCondition implements Serializable {
 
-	private Integer id;
+	private String id;
 
 	private String title;
 

@@ -11,12 +11,12 @@
     <button type="button" class="layui-btn layui-btn-warm del">删除</button>
     <button type="button" class="layui-btn layui-btn-danger fabu">发布</button>
 </div>
-<table class="layui-hide" id="text_title"></table>
+<table class="layui-hide" id="text_title" lay-filter="text_title"></table>
 
 </body>
 <script type="text/html" id="bar">
-    <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="detail">查看</button>
-    <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+    <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="view">查看</button>
+    <button class="layui-btn layui-btn-sm" lay-event="edit">编辑</button>
 </script>
 <script>
     let tableIns;
@@ -58,7 +58,8 @@
             , cols: [
                         [
                             { type:'checkbox'},
-                            {field: 'id', title: 'ID',width:'50'}
+                            {align:'center', title: '编号', type:'numbers',width:'50'}
+                            ,{field: 'id', title: 'ID',hide:true}
                             , {field: 'title', title: '题目',width:"1400"}
                             , {field: '', title: '操作',toolbar:"#bar",width:"150"}
                         ]
@@ -67,6 +68,28 @@
             , height: height
         });
 
+        table.on('tool(text_title)', function(obj) {
+            var d = obj.data;
+            if(obj.event === 'edit') {
+                layer.open({
+                    title:"编辑答案详情",
+                    type: 2,
+                    area:["1000px","700px"],
+                    content: ctx+'/text/title/edit?id='+d.id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+
+                });
+            }
+            if(obj.event === 'view'){
+                layer.open({
+                    title:"查看答案详情",
+                    type: 2,
+                    area:["1000px","700px"],
+                    content: ctx+'/text/title/view?id='+d.id //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                });
+            }
+        });
+
+
         $(".add").click(function(){
             layer.open({
                 title:"答案详情",
@@ -74,6 +97,28 @@
                 area:["1000px","700px"],
                 content: ctx+'/text/title/answerIndex' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
             });
+        });
+
+        $(".del").click(function(){
+            layer.confirm("您确定要删除所有选中行吗？",{icon:3,title:'询问'},function(index){
+                layer.close(index);
+                let checkSttus = table.checkStatus("text_title")
+                if(checkSttus.data.length != 0){
+                    var arr = [];
+                    for(let i=0;i<checkSttus.data.length;i++){
+                        arr.push(checkSttus.data[i].id);
+                    }
+                    $.get(ctx+"/text/title/del?ids="+arr,function(data){
+                        if(data.flag){
+                            layer.msg('删除成功！');
+                            table.reload('text_title', {})
+                        }
+
+                    });
+                }else{
+                    layer.msg('请选择要删除的数据！');
+                }
+            })
         })
     });
 

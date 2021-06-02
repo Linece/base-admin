@@ -5,5 +5,5 @@ import cn.huanzi.qch.baseadmin.text.pojo.TextTitle;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TextTitleRepository extends CommonRepository<TextTitle,Integer> {
+public interface TextTitleRepository extends CommonRepository<TextTitle,String> {
 }

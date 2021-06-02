@@ -12,7 +12,7 @@
     </fieldset>
     <div class="layui-form-item layui-form-text">
         <div class="layui-input-block" style="margin-left: 40px">
-            <textarea placeholder="请输入内容" class="layui-textarea" name="title" id="content_title"></textarea>
+            <textarea placeholder="请输入内容" class="layui-textarea" name="title" th:text="${textTitle.title}" disabled="true"></textarea>
         </div>
     </div>
 
@@ -25,33 +25,16 @@
             <td style="width:50px">序列</td>
             <td>答案内容</td>
             <td>是否正确答案</td>
-            <td style="width:90px">操作</td>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td><input type="text"  class="layui-input answerIndex" name="answerIndex"></td>
-            <td><input type="text"  class="layui-input answerContent" name="answerContent"></td>
-            <td>
-                <select name="sure">
-                    <option value="0">false</option>
-                    <option value="1">true</option>
-                </select>
-            </td>
-            <td>
-                <a class="layui-btn layui-btn-xs add">添加</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs del">删除</a>
-            </td>
+        <tr th:each="textAnswer,textAnswerStat : ${textAnswers}">
+            <td th:text="${textAnswer.answerIndex}"></td>
+            <td th:text="${textAnswer.answerContent}"></td>
+            <td th:text="${textAnswer.sure}"></td>
         </tr>
         </tbody>
     </table>
-
-    <div class="layui-form-item" style="text-align: center;margin-top: 50px">
-        <div class="layui-input-block" style="margin-left: 40px">
-            <button type="submit" class="layui-btn" lay-submit="" lay-filter="sub">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
 </form>
 
 
@@ -60,14 +43,8 @@
     $('body').on('click', '.add', function() {
         //你要添加的html
         var html = '<tr>'+
-            '<td><input type="text"class="layui-input answerIndex" name="answerIndex"></td>'+
-            '<td><input type="text"class="layui-input answerContent" name="answerContent"></td>'+
-            '<td>\n' +
-            '                <select name="sure">\n' +
-            '                    <option value="0">false</option>\n' +
-            '                    <option value="1">true</option>\n' +
-            '                </select>\n' +
-            '            </td>'+
+            '<td><input type="text"class="layui-input" name="answerIndex"></td>'+
+            '<td><input type="text"class="layui-input" name="answerContent"></td>'+
             '<td>'+
             '<a class="layui-btn layui-btn-xs add">添加</a>'+
             '<a class="layui-btn layui-btn-danger layui-btn-xs del">删除</a>'+
@@ -90,18 +67,6 @@
 
 
     layui.use(["element", "form"], function() {
-        if($("#content_title").val() == ""){
-            layer.msg("题目描述不能为空！");
-            return;
-        }
-        if($(".answerIndex").val() == ""){
-            layer.msg("序列不能为空！");
-            return;
-        }
-        if($(".answerContent").val() == ""){
-            layer.msg("答案内容！");
-            return;
-        }
         element = layui.element;
         form = layui.form;
         form.on('submit(sub)', function(data){

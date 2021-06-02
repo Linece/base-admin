@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/text/answer")
-public class TextAnswerController extends CommonController<TextAnswerVo,TextAnswer,Integer> {
+public class TextAnswerController extends CommonController<TextAnswerVo,TextAnswer,String> {
 
 	@Autowired
 	private TextAnswerService textAnswerService;

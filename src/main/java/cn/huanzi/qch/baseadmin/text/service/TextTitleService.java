@@ -7,7 +7,9 @@ import cn.huanzi.qch.baseadmin.text.vo.TextTitleVo;
 import org.springframework.data.domain.Page;
 
 
-public interface TextTitleService extends CommonService<TextTitleVo, TextTitle,Integer> {
+public interface TextTitleService extends CommonService<TextTitleVo, TextTitle,String> {
 
 	public Result<Page<TextTitle>> findPage(TextTitleVo entityVo);
+
+	public  void del(String[] ids);
 }

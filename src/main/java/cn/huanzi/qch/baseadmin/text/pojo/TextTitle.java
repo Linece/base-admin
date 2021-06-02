@@ -14,7 +14,7 @@ import java.util.Date;
 public class TextTitle implements Serializable {
 
 	@Id
-	private Integer id;
+	private String id;
 
 	private String title;
 
