@@ -31,7 +31,8 @@
         <tr th:each="textAnswer,textAnswerStat : ${textAnswers}">
             <td th:text="${textAnswer.answerIndex}"></td>
             <td th:text="${textAnswer.answerContent}"></td>
-            <td th:text="${textAnswer.sure}"></td>
+            <td th:if="${textAnswer.sure eq '0'}">否</td>
+            <td th:if="${textAnswer.sure eq '1'}">是</td>
         </tr>
         </tbody>
     </table>

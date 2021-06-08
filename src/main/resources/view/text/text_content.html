@@ -90,28 +90,29 @@
 
 
     layui.use(["element", "form"], function() {
-        if($("#content_title").val() == ""){
-            layer.msg("题目描述不能为空！");
-            return;
-        }
-        if($(".answerIndex").val() == ""){
-            layer.msg("序列不能为空！");
-            return;
-        }
-        if($(".answerContent").val() == ""){
-            layer.msg("答案内容！");
-            return;
-        }
+        var index=parent.layer.getFrameIndex(window.name);
         element = layui.element;
         form = layui.form;
         form.on('submit(sub)', function(data){
+            if($("#content_title").val() == ""){
+                layer.msg("题目描述不能为空！");
+                return;
+            }
+            if($(".answerIndex").val() == ""){
+                layer.msg("序列不能为空！");
+                return;
+            }
+            if($(".answerContent").val() == ""){
+                layer.msg("答案内容！");
+                return;
+            }
             var fields=$(data.form).serialize();
             fields = decodeURIComponent(fields,true);
-            console.log(fields);
             $.post(ctx + "/text/title/save/answer",JSON.stringify(fields), function(result){
-                if(result.flag == "success"){
+                console.log(result);
+                if(result.flag){
                     parent.layer.msg("保存成功!", {icon: 1});
-                    toUsersForm(result.id);
+                    parent.layer.close(index);
                 }else{
                     parent.layer.msg("保存失败!", {icon: 2});
                 }

@@ -2,7 +2,7 @@
 
 #内置Tomcat容器配置
 server:
-  port: 8888
+  port: 8080
   servlet:
     #应用路径，配置应用路径，可方便进行反向代理
     context-path:

@@ -12,4 +12,6 @@ public interface TextTitleService extends CommonService<TextTitleVo, TextTitle,S
 	public Result<Page<TextTitle>> findPage(TextTitleVo entityVo);
 
 	public  void del(String[] ids);
+
+	public void fabu(String type,String[] ids);
 }

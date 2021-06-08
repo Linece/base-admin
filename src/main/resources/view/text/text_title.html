@@ -10,6 +10,7 @@
     <button type="button" class="layui-btn add">增加</button>
     <button type="button" class="layui-btn layui-btn-warm del">删除</button>
     <button type="button" class="layui-btn layui-btn-danger fabu">发布</button>
+    <button type="button" class="layui-btn layui-btn-danger cancel">取消发布</button>
 </div>
 <table class="layui-hide" id="text_title" lay-filter="text_title"></table>
 
@@ -60,7 +61,8 @@
                             { type:'checkbox'},
                             {align:'center', title: '编号', type:'numbers',width:'50'}
                             ,{field: 'id', title: 'ID',hide:true}
-                            , {field: 'title', title: '题目',width:"1400"}
+                            , {field: 'title', title: '题目',width:"1200"}
+                            , {field: 'publish', title: '是否发布',width:"100"}
                             , {field: '', title: '操作',toolbar:"#bar",width:"150"}
                         ]
                     ]
@@ -95,7 +97,10 @@
                 title:"答案详情",
                 type: 2,
                 area:["1000px","700px"],
-                content: ctx+'/text/title/answerIndex' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                content: ctx+'/text/title/answerIndex', //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                end:function(){
+                    location.reload();
+                }
             });
         });
 
@@ -119,7 +124,51 @@
                     layer.msg('请选择要删除的数据！');
                 }
             })
-        })
+        });
+
+        $(".fabu").click(function(){
+            layer.confirm("您确定要发布所有选中行吗？",{icon:3,title:'询问'},function(index){
+                layer.close(index);
+                let checkSttus = table.checkStatus("text_title")
+                if(checkSttus.data.length != 0){
+                    var arr = [];
+                    for(let i=0;i<checkSttus.data.length;i++){
+                        arr.push(checkSttus.data[i].id);
+                    }
+                    $.get(ctx+"/text/title/fabu?type=0&ids="+arr,function(data){
+                        if(data.flag){
+                            layer.msg('发布成功！');
+                            table.reload('text_title', {})
+                        }
+
+                    });
+                }else{
+                    layer.msg('请选择要发布的数据！');
+                }
+            })
+        });
+
+        $(".cancel").click(function(){
+            layer.confirm("您确定要取消发布所有选中行吗？",{icon:3,title:'询问'},function(index){
+                layer.close(index);
+                let checkSttus = table.checkStatus("text_title")
+                if(checkSttus.data.length != 0){
+                    var arr = [];
+                    for(let i=0;i<checkSttus.data.length;i++){
+                        arr.push(checkSttus.data[i].id);
+                    }
+                    $.get(ctx+"/text/title/fabu?type=1&ids="+arr,function(data){
+                        if(data.flag){
+                            layer.msg('取消发布成功！');
+                            table.reload('text_title', {})
+                        }
+
+                    });
+                }else{
+                    layer.msg('请选择要取消发布的数据！');
+                }
+            })
+        });
     });
 
 

@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class TextTitleServiceImpl extends CommonServiceImpl<TextTitleVo,TextTitle,String> implements TextTitleService {
@@ -40,6 +42,25 @@ public class TextTitleServiceImpl extends CommonServiceImpl<TextTitleVo,TextTitl
 				textAnswer.setTextTitleId(id);
 				this.textTitleRepository.deleteById(id);
 				this.textAnswerRepository.delete(textAnswer);
+			}
+
+		}
+	}
+
+	@Override
+	public void fabu(String type, String[] ids) {
+		String fabu = null;
+		if("0".equals(type)){
+			fabu = "已发布";
+		}else{
+			fabu = "未发布";
+		}
+		if(null != ids && ids.length > 0){
+			for(String id:ids){
+				Optional<TextTitle> option = this.textTitleRepository.findById(id);
+				TextTitle textTitle = option.get();
+				textTitle.setPublish(fabu);
+				this.textTitleRepository.saveAndFlush(textTitle);
 			}
 
 		}

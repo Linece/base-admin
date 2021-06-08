@@ -42,7 +42,7 @@ public class TextTitleController extends CommonController<TextTitleVo,TextTitle,
 
 	@GetMapping("/index")
 	public ModelAndView index(){
-		return new ModelAndView("/text/text_title");
+		return new ModelAndView("text/text_title");
 	}
 
 	@PostMapping("/content")
@@ -62,7 +62,7 @@ public class TextTitleController extends CommonController<TextTitleVo,TextTitle,
 
 	@GetMapping("/answerIndex")
 	public ModelAndView answerIndex(){
-		return new ModelAndView("/text/text_content");
+		return new ModelAndView("text/text_content");
 	}
 
 	@GetMapping("/view")
@@ -72,7 +72,7 @@ public class TextTitleController extends CommonController<TextTitleVo,TextTitle,
 		List<TextAnswer> textAnswers = this.textAnswerService.getTextAnswers(id);
 		dataMap.put("textTitle", textTitleVo);
 		dataMap.put("textAnswers", textAnswers);
-		return new ModelAndView("/text/text_content_view",dataMap);
+		return new ModelAndView("text/text_content_view",dataMap);
 	}
 
 	@GetMapping("/edit")
@@ -82,7 +82,7 @@ public class TextTitleController extends CommonController<TextTitleVo,TextTitle,
 		List<TextAnswer> textAnswers = this.textAnswerService.getTextAnswers(id);
 		dataMap.put("textTitle", textTitleVo);
 		dataMap.put("textAnswers", textAnswers);
-		return new ModelAndView("/text/text_content_edit",dataMap);
+		return new ModelAndView("text/text_content_edit",dataMap);
 	}
 
 	@PostMapping("/save/answer")
@@ -92,10 +92,11 @@ public class TextTitleController extends CommonController<TextTitleVo,TextTitle,
 		TextTitleVo textTitle = new TextTitleVo();
 		if(!StringUtils.isEmpty(data)){
 			String[] dataArr = data.split("&");
-			textTitle.setTitle(StringToolUtil.dataMap(dataArr[1]).get("sourceValue"));
+			textTitle.setTitle(StringToolUtil.dataMap(dataArr[0]).get("sourceValue"));
+			textTitle.setPublish("未发布");
 			Result<TextTitleVo> titleVoResult = textTitleService.save(textTitle);
 			TextAnswerVo textAnswer = new TextAnswerVo();
-			for(int i=2;i<dataArr.length;i++){
+			for(int i=1;i<dataArr.length;i++){
 				String sourceName = StringToolUtil.dataMap(dataArr[i]).get("sourceName");
 				String sourceValue = StringToolUtil.dataMap(dataArr[i]).get("sourceValue");
 				if("answerIndex".equals(sourceName)){
@@ -130,7 +131,7 @@ public class TextTitleController extends CommonController<TextTitleVo,TextTitle,
 			textTitle.setId(StringToolUtil.dataMap(dataArr[0]).get("sourceValue"));
 			Result<TextTitleVo> titleVoResult = textTitleService.save(textTitle);
 			TextAnswerVo textAnswer = new TextAnswerVo();
-			for(int i=1;i<dataArr.length;i++){
+			for(int i=2;i<dataArr.length;i++){
 				String sourceName = StringToolUtil.dataMap(dataArr[i]).get("sourceName");
 				String sourceValue = StringToolUtil.dataMap(dataArr[i]).get("sourceValue");
 				if("answerIndex".equals(sourceName)){
@@ -156,6 +157,12 @@ public class TextTitleController extends CommonController<TextTitleVo,TextTitle,
 	@GetMapping("/del")
 	public Result del(String[] ids){
 		this.textTitleService.del(ids);
+		return Result.of(null);
+	}
+
+	@GetMapping("/fabu")
+	public Result fabu(String type,String[] ids){
+		this.textTitleService.fabu(type, ids);
 		return Result.of(null);
 	}
 

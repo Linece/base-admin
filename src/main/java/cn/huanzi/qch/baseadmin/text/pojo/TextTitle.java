@@ -18,7 +18,9 @@ public class TextTitle implements Serializable {
 
 	private String title;
 
-	private boolean deleteFlag;
+	private String deleteFlag;
+
+	private String publish;
 
 	private Date createTime;
 

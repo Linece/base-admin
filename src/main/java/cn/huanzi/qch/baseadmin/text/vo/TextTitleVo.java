@@ -15,6 +15,8 @@ public class TextTitleVo extends PageCondition implements Serializable {
 
 	private String deleteFalg;
 
+	private String publish;
+
 	private Date createTime;
 
 	private Date updateTime;
