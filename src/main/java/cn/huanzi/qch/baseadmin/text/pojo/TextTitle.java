@@ -13,20 +13,20 @@ import java.util.Date;
 @Data
 public class TextTitle implements Serializable {
 
-	@Id
-	private String id;
+    @Id
+    private String id;
 
-	private String title;
+    private String title;
 
-	private String deleteFlag;
+    private String deleteFlag;
 
-	private String publish;
+    private String publish;
 
-	private Date createTime;
+    private Date createTime;
 
-	private Date updateTime;
+    private Date updateTime;
 
-	private String createBy;
+    private String createBy;
 
-	private String updateBy;
+    private String updateBy;
 }
