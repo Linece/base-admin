@@ -40,6 +40,7 @@ public class OpenApiController {
         }
 
 
+
         return Result.of(result);
     }
 }
