@@ -59,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/getVerifyCodeImage",
             "/error/*",
-            "/openApi/get/answer/list"
+            "/openApi/get/answer/list",
+            "/openApi/login"
     };
 
     @Override
@@ -128,7 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //配置filter
     @Bean
-    public DynamicallyUrlInterceptor dynamicallyUrlInterceptor(){
+    public DynamicallyUrlInterceptor dynamicallyUrlInterceptor() {
         //首次获取
         List<SysAuthorityVo> authorityVoList = sysAuthorityService.list(new SysAuthorityVo()).getData();
         myFilterInvocationSecurityMetadataSource.setRequestMap(authorityVoList);
