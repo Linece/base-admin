@@ -51,6 +51,30 @@ spring:
 captcha:
   enable: false
 
+# 微信支付配置
+weixin:
+  # 秘钥
+  key: SD844716311sd1379919849300000000
+  # 商户号
+  mch_id: 1534054701
+  # 公众账号appid
+  wxappid: wx32c00b85e0400952
+#  wxappid: wxe391560158d7a624
+  # 商户名称
+  send_name: "猴赛雷"
+  # 付款金额 单位分
+  total_amount: "1"
+  # 红包发放总人数
+  total_num: 1
+  # 红包祝福语
+  wishing: "我感谢你哦"
+  # Ip地址
+  client_ip: 192.168.0.1
+  # 活动名称
+  act_name: "答题发红包"
+  # 备注
+  remark: "你可真聪明哦"
+
 ---
 ##### prod 配置 #######
 spring:
@@ -63,6 +87,4 @@ spring:
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-#是否需要输入验证码
-captcha:
-  enable: true
+

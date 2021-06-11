@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/getVerifyCodeImage",
             "/error/*",
             "/openApi/get/answer/list",
+            "/openApi/send",
             "/openApi/login"
     };
 

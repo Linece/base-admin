@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -35,6 +36,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+@EnableConfigurationProperties
 @EnableAsync//开启异步调用
 @SpringBootApplication
 public class BaseAdminApplication {
@@ -104,7 +106,7 @@ class IndexController {
      * 跳转登录页面
      */
     @GetMapping("loginPage")
-    public ModelAndView login(){
+    public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView("login");
 
         //系统信息
@@ -121,7 +123,7 @@ class IndexController {
      * 跳转首页
      */
     @GetMapping("")
-    public void index1(HttpServletResponse response){
+    public void index1(HttpServletResponse response) {
         //内部重定向
         try {
             response.sendRedirect("/index");
@@ -130,8 +132,9 @@ class IndexController {
             log.error(ErrorUtil.errorInfoToString(e));
         }
     }
+
     @GetMapping("index")
-    public ModelAndView index(){
+    public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("index");
 
         //系统信息
@@ -140,15 +143,15 @@ class IndexController {
         //登录用户
         SysUserVo sysUserVo = sysUserService.findByLoginName(SecurityUtil.getLoginUser().getUsername()).getData();
         sysUserVo.setPassword(null);//隐藏部分属性
-        modelAndView.addObject( "loginUser", sysUserVo);
+        modelAndView.addObject("loginUser", sysUserVo);
 
         //登录用户系统菜单
         List<SysMenuVo> menuVoList = sysUserMenuService.findByUserId(sysUserVo.getUserId()).getData();
-        modelAndView.addObject("menuList",menuVoList);
+        modelAndView.addObject("menuList", menuVoList);
 
         //登录用户快捷菜单
-        List<SysShortcutMenuVo> shortcutMenuVoList= sysShortcutMenuService.findByUserId(sysUserVo.getUserId()).getData();
-        modelAndView.addObject("shortcutMenuList",shortcutMenuVoList);
+        List<SysShortcutMenuVo> shortcutMenuVoList = sysShortcutMenuService.findByUserId(sysUserVo.getUserId()).getData();
+        modelAndView.addObject("shortcutMenuList", shortcutMenuVoList);
 
         //后端公钥
         String publicKey = RsaUtil.getPublicKey();
@@ -185,7 +188,7 @@ class IndexController {
      */
     @GetMapping("monitor")
     public ModelAndView monitor() {
-        return new ModelAndView("monitor.html","port",port);
+        return new ModelAndView("monitor.html", "port", port);
     }
 
     /**
@@ -193,6 +196,6 @@ class IndexController {
      */
     @GetMapping("logging")
     public ModelAndView logging() {
-        return new ModelAndView("logging.html","port",port);
+        return new ModelAndView("logging.html", "port", port);
     }
 }
