@@ -102,7 +102,7 @@ public class OpenApiController {
      */
     @ResponseBody
     @RequestMapping("/send")
-    public String send(@RequestParam(name = "openId") String openId) throws Exception {
+    public UserOrderVo send(@RequestParam(name = "openId") String openId) throws Exception {
 
         // 生成订单
         UserOrderVo userOrder = userOrderService.createUserOrder(openId);
@@ -158,12 +158,12 @@ public class OpenApiController {
             userOrder.setOrderFinishTime(new Date());
             userOrder.setOrderStatus(1);
             userOrderService.save(userOrder);
-        }else {
+        } else {
             userOrder.setOrderStatus(2);
             userOrderService.save(userOrder);
         }
 
-        return "";
+        return userOrder;
     }
 
 
