@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -72,6 +73,8 @@ public class OpenApiController {
             userPlay.setOpenId(openid);
             userPlay.setScore(0);
             userPlay.setStatus(0);
+            userPlay.setCreateTime(new Date());
+            userPlay.setUpdateTime(new Date());
             userPlayService.save(userPlay);
         }
 

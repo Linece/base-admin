@@ -7,7 +7,7 @@ import cn.huanzi.qch.baseadmin.user.vo.UserPlayVo;
 public interface UserPlayRepository extends CommonRepository<UserPlay, String> {
 
 
-    UserPlayVo findByOpenId(String openid);
+    UserPlay findByOpenId(String openid);
 }
 
 
