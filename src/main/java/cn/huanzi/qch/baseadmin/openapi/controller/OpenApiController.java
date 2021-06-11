@@ -72,8 +72,7 @@ public class OpenApiController {
             userPlay.setOpenId(openid);
             userPlay.setScore(0);
             userPlay.setStatus(0);
-            Result<UserPlayVo> save = userPlayService.save(userPlay);
-            userPlay = save.getData();
+            userPlayService.save(userPlay);
         }
 
 
