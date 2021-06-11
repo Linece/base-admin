@@ -102,14 +102,15 @@ public class OpenApiController {
      */
     @ResponseBody
     @RequestMapping("/send")
-    public UserOrderVo send(@RequestParam(name = "openId") String openId) throws Exception {
+    public String send(
+            @RequestParam(name = "openId") String openId,
+            @RequestParam(name = "score") Integer score
+    ) throws Exception {
 
         // 生成订单
         UserOrderVo userOrder = userOrderService.createUserOrder(openId);
 
-
         String nonceStr = UUIDUtil.getUUID();
-
         // 发送红包
         String url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
 
@@ -155,6 +156,12 @@ public class OpenApiController {
 
         String result_code = (String) map.get("result_code");
         if (result_code.equalsIgnoreCase("SUCCESS")) {
+            // 更新 用户play
+            UserPlayVo byOpenId = userPlayService.findByOpenId(openId);
+            byOpenId.setScore(score);
+            byOpenId.setStatus(1);
+            userPlayService.save(byOpenId);
+            // 更新订单状态
             userOrder.setOrderFinishTime(new Date());
             userOrder.setOrderStatus(1);
             userOrderService.save(userOrder);
@@ -163,7 +170,7 @@ public class OpenApiController {
             userOrderService.save(userOrder);
         }
 
-        return userOrder;
+        return "";
     }
 
 
