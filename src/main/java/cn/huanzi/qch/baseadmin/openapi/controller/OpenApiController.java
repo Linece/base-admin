@@ -155,7 +155,7 @@ public class OpenApiController {
 
         String s = WXPayUtil.mapToXml(paramMap);
         WXPayRequest wxPayRequest = new WXPayRequest(this.wxPayConfig());
-
+        // 使用证书
         String s1 = wxPayRequest.requestWithCert(url, nonceStr, s, true);
         log.info(s1);
         // 回调修改订单状态
