@@ -74,6 +74,6 @@ weixin:
   act_name: "答题发红包"
   # 备注
   remark: "你可真聪明哦"
-  cert_path: "D://apiclient_cert.p12"
+  cert_path: "D:\apiclient_cert.p12"
 
 

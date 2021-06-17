@@ -2,6 +2,10 @@ package cn.huanzi.qch.baseadmin.openapi.controller;
 
 import cn.huanzi.qch.baseadmin.common.pojo.Result;
 import cn.huanzi.qch.baseadmin.config.WeiXinPayConfigProperties;
+import cn.huanzi.qch.baseadmin.config.weixin.MyWXPayConfig;
+import cn.huanzi.qch.baseadmin.config.weixin.WXPayDomain;
+import cn.huanzi.qch.baseadmin.config.weixin.WXPayRequest;
+import cn.huanzi.qch.baseadmin.config.weixin.WXPayUtil;
 import cn.huanzi.qch.baseadmin.openapi.vo.WeixinAnswerVO;
 import cn.huanzi.qch.baseadmin.text.pojo.TextAnswer;
 import cn.huanzi.qch.baseadmin.text.pojo.TextTitle;
@@ -21,6 +25,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 @RestController
@@ -112,9 +119,9 @@ public class OpenApiController {
 
         String nonceStr = UUIDUtil.getUUID();
         // 发送红包
-        String url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+        String url = "/mmpaymkttransfers/sendredpack";
 
-        SortedMap<String, Object> paramMap = new TreeMap<String, Object>();
+        Map<String, String> paramMap = new HashMap<>();
         // 随机串
         paramMap.put("nonce_str", nonceStr);
         // 商户订单号
@@ -130,7 +137,7 @@ public class OpenApiController {
         // 付款金额
         paramMap.put("total_amount", weiXinPayConfigProperties.getTotal_amount());
         // 红包发放总人数
-        paramMap.put("total_num", weiXinPayConfigProperties.getTotal_num());
+        paramMap.put("total_num", weiXinPayConfigProperties.getTotal_num().toString());
         // 红包祝福语
         paramMap.put("wishing", weiXinPayConfigProperties.getWishing());
         // ip
@@ -142,17 +149,17 @@ public class OpenApiController {
 
 
         // 签名
-        String sign = wxUtils.createSign(paramMap, weiXinPayConfigProperties.getKey());
+        String sign = WXPayUtil.generateSignature(paramMap, weiXinPayConfigProperties.getKey());
         // 签名
         paramMap.put("sign", sign);
 
-        String s = wxUtils.transferMapToXml(paramMap);
+        String s = WXPayUtil.mapToXml(paramMap);
+        WXPayRequest wxPayRequest = new WXPayRequest(this.wxPayConfig());
 
-        ResponseEntity<String> response = restTemplate.postForEntity(url, s, String.class);
-        String body = response.getBody();
+        String s1 = wxPayRequest.requestWithCert(url, nonceStr, s, true);
 
         // 回调修改订单状态
-        Map<String, Object> map = wxUtils.transferXmlToMap(body);
+        Map<String, Object> map = wxUtils.transferXmlToMap(s1);
 
         String result_code = (String) map.get("result_code");
         if (result_code.equalsIgnoreCase("SUCCESS")) {
@@ -173,5 +180,20 @@ public class OpenApiController {
         return "";
     }
 
+    public MyWXPayConfig wxPayConfig() throws FileNotFoundException {
+        String certPath = weiXinPayConfigProperties.getCertPath();
+        FileInputStream instream = new FileInputStream(new File(certPath));
+
+        WXPayDomain wxPayDomain = new WXPayDomain();
+
+
+        return MyWXPayConfig.builder()
+                .appId(weiXinPayConfigProperties.getWxappid())
+                .mchId(weiXinPayConfigProperties.getMch_id())
+                .key(weiXinPayConfigProperties.getKey())
+                .certStream(instream)
+                .wxPayDomain(wxPayDomain)
+                .build();
+    }
 
 }
