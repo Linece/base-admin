@@ -18,15 +18,15 @@ import cn.huanzi.qch.baseadmin.user.vo.UserPlayVo;
 import cn.huanzi.qch.baseadmin.util.UUIDUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.*;
 
 @RestController
@@ -178,9 +178,13 @@ public class OpenApiController {
         return "";
     }
 
-    public MyWXPayConfig wxPayConfig() throws FileNotFoundException {
-        String certPath = weiXinPayConfigProperties.getCertPath();
-        FileInputStream instream = new FileInputStream(new File(certPath));
+    public MyWXPayConfig wxPayConfig() throws Exception {
+
+        InputStream inputStream = Objects.requireNonNull(MyWXPayConfig.class.getClassLoader()
+                .getResourceAsStream("static/wx/apiclient_cert.p12"));
+
+        byte[] bytes = IOUtils.toByteArray(inputStream);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 
         WXPayDomain wxPayDomain = new WXPayDomain();
 
@@ -189,7 +193,7 @@ public class OpenApiController {
                 .appId(weiXinPayConfigProperties.getWxappid())
                 .mchId(weiXinPayConfigProperties.getMch_id())
                 .key(weiXinPayConfigProperties.getKey())
-                .certStream(instream)
+                .certStream(byteArrayInputStream)
                 .wxPayDomain(wxPayDomain)
                 .build();
     }
