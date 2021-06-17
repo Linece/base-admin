@@ -16,7 +16,6 @@ import cn.huanzi.qch.baseadmin.user.service.UserPlayService;
 import cn.huanzi.qch.baseadmin.user.vo.UserOrderVo;
 import cn.huanzi.qch.baseadmin.user.vo.UserPlayVo;
 import cn.huanzi.qch.baseadmin.util.UUIDUtil;
-import cn.huanzi.qch.baseadmin.util.WxUtils;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -40,7 +39,6 @@ public class OpenApiController {
     private final UserOrderService userOrderService;
     private final UserPlayService userPlayService;
     private final RestTemplate restTemplate;
-    private final WxUtils wxUtils;
     private final String PUBLISH_STATUS = "已发布";
 
 
@@ -159,9 +157,9 @@ public class OpenApiController {
         String s1 = wxPayRequest.requestWithCert(url, nonceStr, s, true);
 
         // 回调修改订单状态
-        Map<String, Object> map = wxUtils.transferXmlToMap(s1);
+        Map<String, String> map = WXPayUtil.xmlToMap(s1);
 
-        String result_code = (String) map.get("result_code");
+        String result_code = map.get("result_code");
         if (result_code.equalsIgnoreCase("SUCCESS")) {
             // 更新 用户play
             UserPlayVo byOpenId = userPlayService.findByOpenId(openId);
