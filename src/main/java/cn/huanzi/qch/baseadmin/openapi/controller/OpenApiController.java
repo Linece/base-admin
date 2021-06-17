@@ -18,6 +18,7 @@ import cn.huanzi.qch.baseadmin.user.vo.UserPlayVo;
 import cn.huanzi.qch.baseadmin.util.UUIDUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/openApi/")
 @RequiredArgsConstructor
@@ -155,7 +157,7 @@ public class OpenApiController {
         WXPayRequest wxPayRequest = new WXPayRequest(this.wxPayConfig());
 
         String s1 = wxPayRequest.requestWithCert(url, nonceStr, s, true);
-
+        log.info(s1);
         // 回调修改订单状态
         Map<String, String> map = WXPayUtil.xmlToMap(s1);
 
